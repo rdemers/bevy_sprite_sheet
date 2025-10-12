@@ -1,4 +1,4 @@
-use pad::Position;
+use pad::position::Position;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct Rect {
