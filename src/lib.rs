@@ -4,9 +4,9 @@ mod rect;
 use std::collections::HashMap;
 use bevy_app::prelude::*;
 use bevy_asset::prelude::*;
+use bevy_asset::RenderAssetUsages;
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_ecs::prelude::*;
-use bevy_render::render_asset::RenderAssetUsages;
 use bevy_state::prelude::*;
 use bevy_render::render_resource::Extent3d;
 use bevy_image::{Image, TextureFormatPixelInfo};
@@ -111,7 +111,7 @@ fn create_sprite_sheets_from_aseprite_data(
 pub fn split_image_by_rectangles<'a>(image: &'a Image, rectangles: impl IntoIterator<Item=Rect> + 'a) -> impl IntoIterator<Item=Image> + 'a {
     let dimension = image.texture_descriptor.dimension;
     let format = image.texture_descriptor.format;
-    let sheet_width = image.texture_descriptor.size.width as usize * format.pixel_size();
+    let sheet_width = image.texture_descriptor.size.width as usize * format.pixel_size().expect("Could not retrieve pixel size");
 
     rectangles
         .into_iter()
@@ -124,7 +124,7 @@ pub fn split_image_by_rectangles<'a>(image: &'a Image, rectangles: impl IntoIter
 
             let image_data = image.data.as_ref().map(|vec| vec.as_slice()).expect("The image should be loaded");
 
-            let data = extract_rectangle(image_data, rect, sheet_width, format.pixel_size());
+            let data = extract_rectangle(image_data, rect, sheet_width, format.pixel_size().expect("Could not retrieve pixel size"));
             Image::new(
                 size,
                 dimension,
