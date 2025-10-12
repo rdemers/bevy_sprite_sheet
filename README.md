@@ -7,3 +7,4 @@ What version of this library supports which bevy version?
 | bevy_sprite_sheet version | bevy version |
 |---------------------------|--------------|
 | 1.0.0                     | 0.16         |
+| 1.1.0                     | 0.17         |
